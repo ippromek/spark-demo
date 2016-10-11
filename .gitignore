@@ -1,7 +1,12 @@
 # Java
 .class
 
-# Eclipse
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Eclipse IDE
 .classpath
 .project
 .settings/
