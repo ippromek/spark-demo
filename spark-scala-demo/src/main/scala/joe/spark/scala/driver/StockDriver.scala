@@ -15,6 +15,8 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatter
 import org.apache.spark.sql.Row
 import org.apache.spark.rdd.RDD
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 
 /**
  * spark-submit --master local[2] --class joe.spark.scala.driver.StockDriver C:\Users\jsicree\eclipse\mars\workspace\spark\spark-scala-demo\target\spark-scala-demo-0.0.1-SNAPSHOT.jar
@@ -27,20 +29,21 @@ object StockDriver {
 
     println("Starting StockDriver")
 
-    // TODO: Make these config options or command line ags
-    val appName = "Stock Driver"
-    val sparkMaster = "local[*]"
-    val sparkWarehouseDir = "file:///C:/Users/jsicree/dev/spark-warehouse"
-    val sparkLocalDir = "file:///C:/tmp/spark-temp"
-    val fileName = "NYSE_daily_prices_A.csv"
-
+    val conf = ConfigFactory.load()
+    
+    val appName = conf.getString("stockdriver.appName")
+    val sparkMaster = conf.getString("stockdriver.sparkMaster")
+    val sparkWarehouseDir = conf.getString("stockdriver.sparkWarehouseDir")
+    val sparkLocalDir = conf.getString("stockdriver.sparkLocalDir")
+    val fileName = conf.getString("stockdriver.fileName")
+        
     val sparkSession = SparkSession.builder.
       master(sparkMaster).
       appName(appName).
       config("spark.sql.warehouse.dir", sparkWarehouseDir).
       //        config("spark.local.dir", sparkLocalDir).
       getOrCreate()
-
+      
     //    sparkSession.conf.getAll.foreach { x => println(x) }
 
     val stockRecordDf = loadStockRecords(sparkSession, fileName)
@@ -99,6 +102,8 @@ object StockDriver {
     val meanDf = groupedDf.mean("stock_price_close")
     val maxDf = groupedDf.max("stock_price_close")
 
+    // JOIN the Dataframes by stock symbol to get [symbol, {min, mean, max}]
+    
     println("Unique stock symbols: " + meanDf.collect().size)
     meanDf.collect().foreach { x => println(x) }
 
