@@ -19,7 +19,8 @@ import com.typesafe.config.ConfigFactory
 import com.typesafe.config.Config
 
 /**
- * spark-submit --master local[2] --class joe.spark.scala.driver.RefDataDriver --jars C:\Users\jsicree\dev\spark\jars\ojdbc7-12.1.0.1.jar C:\Users\jsicree\git\repos\spark-demo\spark-scala-demo\target\spark-scala-demo-0.0.1-SNAPSHOT.jar
+ * 
+ * spark-submit --class joe.spark.scala.driver.RefDataDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar ref_data_driver.conf
  *
  */
 
@@ -28,7 +29,8 @@ object RefDataDriver {
   def main(args: Array[String]) {
 
     println("Starting RefDataDriver")
-    val conf = ConfigFactory.load()
+    println("Using conf file: " + args(0))
+    val conf = ConfigFactory.load(args(0))
     
     val appName = conf.getString("refdatadriver.appName")
     val sparkMaster = conf.getString("refdatadriver.sparkMaster")

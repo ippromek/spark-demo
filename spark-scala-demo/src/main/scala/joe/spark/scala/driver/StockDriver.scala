@@ -19,8 +19,9 @@ import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 
 /**
- * spark-submit --master local[2] --class joe.spark.scala.driver.StockDriver C:\Users\jsicree\eclipse\mars\workspace\spark\spark-scala-demo\target\spark-scala-demo-0.0.1-SNAPSHOT.jar
- *
+ * 
+ * spark-submit --class joe.spark.scala.driver.StockDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar stock_driver.conf
+ * 
  */
 
 object StockDriver {
@@ -28,8 +29,8 @@ object StockDriver {
   def main(args: Array[String]) {
 
     println("Starting StockDriver")
-
-    val conf = ConfigFactory.load()
+    println("Using conf file: " + args(0))
+    val conf = ConfigFactory.load(args(0))
     
     val appName = conf.getString("stockdriver.appName")
     val sparkMaster = conf.getString("stockdriver.sparkMaster")
