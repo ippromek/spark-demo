@@ -17,6 +17,9 @@ project/plugins/project/
 *.war
 *.ear
 
+# App config
+*.conf
+
 # Eclipse IDE
 .classpath
 .project
