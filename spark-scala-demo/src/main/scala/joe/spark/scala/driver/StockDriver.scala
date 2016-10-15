@@ -2,25 +2,20 @@ package joe.spark.scala.driver
 
 import org.apache.spark.sql.DataFrameReader
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.Row
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.types.StructType
-import org.apache.spark.sql.types.StringType
-import org.apache.spark.sql.types.StructField
-import org.apache.spark.sql.types.DateType
 import org.apache.spark.sql.types.DoubleType
 import org.apache.spark.sql.types.IntegerType
-import org.apache.spark.util.Utils
-import org.apache.spark.util.Utils
-import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
-import org.apache.spark.sql.Row
-import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.types.StringType
+import org.apache.spark.sql.types.StructField
+import org.apache.spark.sql.types.StructType
+import joe.spark.scala.driver._
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
 
 /**
  * 
- * spark-submit --class joe.spark.scala.driver.StockDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar stock_driver.conf
+ * spark-submit --class joe.spark.scala.driver.StockDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar
  * 
  */
 
@@ -29,14 +24,14 @@ object StockDriver {
   def main(args: Array[String]) {
 
     println("Starting StockDriver")
-    println("Using conf file: " + args(0))
-    val conf = ConfigFactory.load(args(0))
+    println("Using conf file: " + STOCK_DRIVER_CONF_FILE)
+    val conf = ConfigFactory.load(STOCK_DRIVER_CONF_FILE)
     
     val appName = conf.getString("stockdriver.appName")
     val sparkMaster = conf.getString("stockdriver.sparkMaster")
     val sparkWarehouseDir = conf.getString("stockdriver.sparkWarehouseDir")
     val sparkLocalDir = conf.getString("stockdriver.sparkLocalDir")
-    val fileName = conf.getString("stockdriver.fileName")
+    val inputFileName = conf.getString("stockdriver.input.fileName")
         
     val sparkSession = SparkSession.builder.
       master(sparkMaster).
@@ -47,11 +42,14 @@ object StockDriver {
       
     //    sparkSession.conf.getAll.foreach { x => println(x) }
 
-    val stockRecordDf = loadStockRecords(sparkSession, fileName)
+    val stockRecordDf = loadStockRecords(sparkSession, inputFileName)
     stockRecordDf.show(10)
     println("Number of lines read: " + stockRecordDf.collect().size)
+    
+    val uniqueDf = stockRecordDf.groupBy("stock_symbol")
+    uniqueDf.count().show()
 
-    //    val minMaxMeanDf = createMinMaxMeanDf(sparkSession, stockRecordDf)
+//    val minMaxMeanDf = createMinMaxMeanDf(sparkSession, stockRecordDf)
 
     //processStockSymbol("AVT", sparkSession, stockRecordDf)
 
@@ -76,22 +74,7 @@ object StockDriver {
     val record = StructType(Array(exchangeField, symbolField, dateField, openField, highField, lowField, closeField, volField, adjField))
 
     val dataframe = sparkSession.read.format("csv").option("header", "true").schema(record).load(fileName)
-
-    //    val formatter: DateTimeFormatter = DateTimeFormat.forPattern("MM/dd/yyyy")
-    //    val x = dataframe.map {row =>
-    //      StockRecord(row.getString(row.fieldIndex("exchangeField")),
-    //        row.getString(row.fieldIndex("symbolField")),
-    //        formatter.parseLocalDate(row.getString(row.fieldIndex("dateField"))),
-    //        row.getDouble(row.fieldIndex("openField")),
-    //        row.getDouble(row.fieldIndex("highField")),
-    //        row.getDouble(row.fieldIndex("lowField")),
-    //        row.getDouble(row.fieldIndex("closeField")),
-    //        row.getInt(row.fieldIndex("volField")),
-    //        row.getDouble(row.fieldIndex("adjField")))
-    //    }
-    //    dataframe.map ( data => formatter.parseLocalDate( data.getString(data.fieldIndex("dateField") 
-    //    }
-
+    
     dataframe
   }
 
