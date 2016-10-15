@@ -16,4 +16,14 @@ package object driver {
                       stockPriceClose: Double, 
                       stockVolume: Int, 
                       stockPriceAdjClose: Double)
+                      
+  final case class State(id: Int, 
+                      name: String, 
+                      code: String, 
+                      countryId: Int)                      
+
+  final case class Country(id: Int, 
+                      name: String, 
+                      code: String)                      
+
 }
