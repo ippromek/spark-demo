@@ -17,12 +17,12 @@ package object driver {
                       stockVolume: Int, 
                       stockPriceAdjClose: Double)
                       
-  final case class State(id: Int, 
+  final case class State(id: Long, 
                       name: String, 
                       code: String, 
-                      countryId: Int)                      
+                      countryId: Long)                      
 
-  final case class Country(id: Int, 
+  final case class Country(id: Long, 
                       name: String, 
                       code: String)                      
 

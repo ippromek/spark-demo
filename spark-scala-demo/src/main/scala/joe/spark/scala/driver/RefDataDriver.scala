@@ -7,6 +7,7 @@ import com.typesafe.config.ConfigFactory
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.IntegerType
+import org.apache.spark.sql.types.LongType
 
 /**
  * 
@@ -46,6 +47,8 @@ object RefDataDriver {
     stateDs.show()
 //    stateDf.foreach { x => println(x.getString(x.fieldIndex("NAME"))) }
     
+    
+//    val mergedDs = stateDs.join(right, joinExprs, joinType)
     sparkSession.stop()
 
   }
@@ -55,12 +58,15 @@ object RefDataDriver {
 
     val dataframe = readRefData(sparkSession, config, "(SELECT * from STATE)")
     dataframe.printSchema()
-    val out = dataframe.
-        withColumn("ID", dataframe.col("ID").cast(IntegerType)).
-        withColumn("COUNTRY_ID", dataframe.col("COUNTRY_ID").cast(IntegerType)).
+    
+    // When using the Oracle JDBC driver, all numeric fields are read as
+    // decimal values. We need to cast the id columns to longs
+    val modDataframe = dataframe.
+        withColumn("ID", dataframe.col("ID").cast(LongType)).
+        withColumn("COUNTRY_ID", dataframe.col("COUNTRY_ID").cast(LongType)).
         withColumnRenamed("COUNTRY_ID","COUNTRYID")  
-    out.printSchema()
-    val dataset = out.as[State]
+    modDataframe.printSchema()
+    val dataset = modDataframe.as[State]
     dataset
   }
 
@@ -68,10 +74,13 @@ object RefDataDriver {
     import sparkSession.implicits._      
     val dataframe = readRefData(sparkSession, config, "(SELECT * from COUNTRY)")
     dataframe.printSchema()
-    val out = dataframe.
-        withColumn("ID", dataframe.col("ID").cast(IntegerType))
-    out.printSchema()
-    val dataset = out.as[Country]
+
+    // When using the Oracle JDBC driver, all numeric fields are read as
+    // decimal values. We need to cast the id columns to longs
+    val modDataframe = dataframe.
+        withColumn("ID", dataframe.col("ID").cast(LongType))
+    modDataframe.printSchema()
+    val dataset = modDataframe.as[Country]
     dataset
   }
   
