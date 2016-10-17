@@ -73,18 +73,20 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- 
+			 Including both Oracle and MySQL dependencies since the we can use either.
+			 Remove or comment out the one you do not need.
+		 -->
 
 		<!-- Oracle -->
-<!--
  		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<version>${oracle.version}</version>
 		</dependency>
- -->
 
  		<!-- mySQL -->		
-		<dependency>
+ 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
