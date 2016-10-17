@@ -25,6 +25,9 @@
 		<!-- Oracle -->
 		<oracle.version>12.1.0.1</oracle.version>
 
+		<!-- MySQL -->
+		<mysql.version>5.1.39</mysql.version>
+
 		<!-- TypeSafe Config -->
 		<typesafe.config.version>1.3.1</typesafe.config.version>
 
@@ -72,10 +75,19 @@
 
 
 		<!-- Oracle -->
-		<dependency>
+<!--
+ 		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<version>${oracle.version}</version>
+		</dependency>
+ -->
+
+ 		<!-- mySQL -->		
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
 		</dependency>
 
 		<!-- TypeSafe Config -->

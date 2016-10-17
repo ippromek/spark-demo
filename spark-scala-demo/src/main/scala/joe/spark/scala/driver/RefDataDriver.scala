@@ -56,7 +56,7 @@ object RefDataDriver {
   def readStateRefData(sparkSession: SparkSession, config: Config): Dataset[State] = {
     import sparkSession.implicits._      
 
-    val dataframe = readRefData(sparkSession, config, "(SELECT * from STATE)")
+    val dataframe = readRefData(sparkSession, config, "STATE")
     dataframe.printSchema()
     
     // When using the Oracle JDBC driver, all numeric fields are read as
@@ -72,7 +72,7 @@ object RefDataDriver {
 
   def readCountryRefData(sparkSession: SparkSession, config: Config): Dataset[Country] = {
     import sparkSession.implicits._      
-    val dataframe = readRefData(sparkSession, config, "(SELECT * from COUNTRY)")
+    val dataframe = readRefData(sparkSession, config, "COUNTRY")
     dataframe.printSchema()
 
     // When using the Oracle JDBC driver, all numeric fields are read as
