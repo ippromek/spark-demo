@@ -21,7 +21,6 @@ object RecommenderDriver {
     val sparkMaster = conf.getString("recommender.sparkMaster")
     val sparkWarehouseDir = conf.getString("recommender.sparkWarehouseDir")
     val sparkLocalDir = conf.getString("recommender.sparkLocalDir")
-//    val inputFileName = conf.getString("stockdriver.input.fileName")
 
     val sparkSession = SparkSession.builder.
       master(sparkMaster).
