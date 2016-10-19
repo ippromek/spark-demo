@@ -1,0 +1,5 @@
+recommender.appName = "Recommender"
+recommender.sparkMaster = "local[*]"
+recommender.sparkWarehouseDir = "file:///C:/tmp/spark-warehouse"
+recommender.sparkLocalDir = "file:///C:/tmp/spark-temp"
+recommender.input.fileName = "<filename>"

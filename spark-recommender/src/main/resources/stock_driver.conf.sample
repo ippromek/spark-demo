@@ -1,5 +1,0 @@
-stockdriver.appName = "Stock Driver"
-stockdriver.sparkMaster = "local[*]"
-stockdriver.sparkWarehouseDir = "file:///C:/tmp/spark-warehouse"
-stockdriver.sparkLocalDir = "file:///C:/tmp/spark-temp"
-stockdriver.input.fileName = "<filename>"
