@@ -21,13 +21,22 @@ object RecommenderDriver {
     val sparkMaster = conf.getString("recommender.sparkMaster")
     val sparkWarehouseDir = conf.getString("recommender.sparkWarehouseDir")
     val sparkLocalDir = conf.getString("recommender.sparkLocalDir")
+    val filename = conf.getString("recommender.input.fileName")
 
+    println("Filename = " + filename)
+
+    // Create SparkSession
     val sparkSession = SparkSession.builder.
       master(sparkMaster).
       appName(appName).
       config("spark.sql.warehouse.dir", sparkWarehouseDir).
       getOrCreate()
       
+    // Read in data
+    val rawDataDs = sparkSession.read.textFile(filename)
+    println("Lines read in: " + rawDataDs.count())
+    
+    // Stop the SparkSession  
     sparkSession.stop()
     
   }
