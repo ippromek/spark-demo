@@ -49,7 +49,7 @@ object DataProcessor {
 
     val filename = config.getString("recommender.artistalias.filename")
     val rawDataDs = sparkSession.read.textFile(filename)
-    //    println("Lines read in: " + rawDataDs.count())
+    println("Lines read in from artist alias file: " + rawDataDs.count())
     val artistAliasDs = rawDataDs.flatMap({ line =>
       val tokens = line.split('\t')
       if (tokens(0).isEmpty) {
