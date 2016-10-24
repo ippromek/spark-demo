@@ -1,5 +1,6 @@
 package joe.spark.recommender.processor
 
+import org.apache.spark.rdd.PairRDDFunctions
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.SparkSession
 
@@ -41,16 +42,17 @@ object DataProcessor {
         }
       }
     }).map(attr => new ArtistRecord(attr._1, attr._2.trim))
+    
     artistDs
   }
 
-  def readArtistAliasData(sparkSession: SparkSession, config: Config): Dataset[(Long,Long)] = {
+  def readArtistAliasData(sparkSession: SparkSession, config: Config): PairRDDFunctions[Long, Long] = {
     import sparkSession.implicits._
 
     val filename = config.getString("recommender.artistalias.filename")
     val rawDataDs = sparkSession.read.textFile(filename)
-    println("Lines read in from artist alias file: " + rawDataDs.count())
-    val artistAliasDs = rawDataDs.flatMap({ line =>
+    //println("Lines read in from artist alias file: " + rawDataDs.count())
+    val artistAliasPRdd = new PairRDDFunctions(rawDataDs.flatMap({ line =>
       val tokens = line.split('\t')
       if (tokens(0).isEmpty) {
         None
@@ -61,8 +63,9 @@ object DataProcessor {
           case e: NumberFormatException => None
         }
       }
-    })
-    artistAliasDs
+    }).rdd)
+    
+    artistAliasPRdd
   }
 
 }

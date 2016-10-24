@@ -8,7 +8,7 @@ package object recommender {
                       artistId: Long, 
                       playCount: Long)                      
 
-  final case class ArtistRecord(userId: Long, 
+  final case class ArtistRecord(artistId: Long, 
                       name: String)                      
   
   
