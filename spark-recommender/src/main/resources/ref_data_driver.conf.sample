@@ -1,0 +1,15 @@
+refdatadriver.appName = "Ref Data Driver"
+refdatadriver.sparkMaster = "local[*]"
+refdatadriver.sparkWarehouseDir = "file:///C:/tmp/spark-warehouse"
+refdatadriver.sparkLocalDir = "file:///C:/tmp/spark-temp"
+
+# Oracle
+refdatadriver.db.driver = "oracle.jdbc.OracleDriver"
+refdatadriver.db.url = "jdbc:oracle:thin:@//<host>:<port>/<sid>"
+
+# MySQL
+refdatadriver.db.driver = "com.mysql.jdbc.Driver"
+refdatadriver.db.url = "jdbc:mysql://<host>:<port>/<schema>?useSSL=false&serverTimezone=EST5EDT"
+
+refdatadriver.db.user = "<username>"
+refdatadriver.db.password = "<password>"

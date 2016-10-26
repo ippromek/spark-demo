@@ -1,15 +1,11 @@
 package joe.spark.scala
 
-import org.joda.time.LocalDate
-
+import org.apache.spark.sql.types.DataTypes
+import org.apache.spark.sql.types.StructField
 package object driver {
-  final case class StockRecord(exchange: String, 
-                      symbol: String, 
-                      date: LocalDate, 
-                      openPrice: Double, 
-                      highPrice: Double, 
-                      lowPrice: Double, 
-                      closePrice: Double, 
-                      volume: Int, 
-                      adjClosePrice: Double)
+  
+  final val STOCK_DRIVER_CONF_FILE = "stock_driver.conf"
+  final val REF_DATA_DRIVER_CONF_FILE = "ref_data_driver.conf"
+  
+
 }
