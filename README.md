@@ -9,5 +9,5 @@
 
 ### spark-recommender
 
-`spark-submit --class joe.spark.recommender.driver.RecommenderDriver C:\Users\jsicree\git\repos\spark-demo\spark-recommender\target\spark-recommender-0.0.1-SNAPSHOT.jar`
+`spark-submit --class joe.spark.recommender.driver.RecommenderDriver C:\Users\jsicree\git\repos\spark-demo\spark-recommender\target\spark-recommender-0.0.1-SNAPSHOT.jar <userId>`
 ```
