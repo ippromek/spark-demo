@@ -18,10 +18,10 @@
 		<scala.tools.version>2.11</scala.tools.version>
 
 		<!-- Spark -->
-		<spark.version>2.0.1</spark.version>
-		<spark.sql.version>2.0.1</spark.sql.version>
-		<spark.hive.version>2.0.1</spark.hive.version>
-		<spark.mllib.version>2.0.1</spark.mllib.version>
+		<spark.version>2.0.0</spark.version>
+		<spark.sql.version>2.0.0</spark.sql.version>
+		<spark.hive.version>2.0.0</spark.hive.version>
+		<spark.mllib.version>2.0.0</spark.mllib.version>
 
 		<!-- Oracle -->
 		<oracle.version>12.1.0.1</oracle.version>
