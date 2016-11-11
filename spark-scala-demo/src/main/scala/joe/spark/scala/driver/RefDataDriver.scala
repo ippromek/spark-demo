@@ -13,7 +13,7 @@ import joe.spark.scala._
 
 /**
  * 
- * spark-submit --class joe.spark.scala.driver.RefDataDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar
+ * spark-submit --master local[*] --class joe.spark.scala.driver.RefDataDriver --conf spark.sql.warehouse.dir=<path-to-warehouse-dir> <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar
  *
  */
 
@@ -26,14 +26,9 @@ object RefDataDriver {
     val conf = ConfigFactory.load(REF_DATA_DRIVER_CONF_FILE)
     
     val appName = conf.getString("refdatadriver.appName")
-    val sparkMaster = conf.getString("refdatadriver.sparkMaster")
-    val sparkWarehouseDir = conf.getString("refdatadriver.sparkWarehouseDir")
-    val sparkLocalDir = conf.getString("refdatadriver.sparkLocalDir")
 
     val sparkSession = SparkSession.builder.
-      master(sparkMaster).
       appName(appName).
-      config("spark.sql.warehouse.dir", sparkWarehouseDir).
       getOrCreate()
 
     val countryDs = RefDataProcessor.readCountryRefData(sparkSession, conf) 
