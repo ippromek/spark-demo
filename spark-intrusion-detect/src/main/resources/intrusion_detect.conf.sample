@@ -1,0 +1,7 @@
+stockdriver.appName = "Intrusion Detect"
+stockdriver.sparkMaster = "local[*]"
+stockdriver.sparkWarehouseDir = "file:///C:/Users/jsicree/dev/spark-warehouse"
+stockdriver.sparkLocalDir = "file:///C:/tmp/spark-temp"
+#stockdriver.input.fileName = "NYSE_daily_prices_A.csv"
+stockdriver.input.fileName = "file:///C:/data/spark/datasets/NYSE/*.csv"
+
