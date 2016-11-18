@@ -10,25 +10,21 @@ import joe.spark.recommender._
 
 object DataProcessor {
 
-  def readUserArtistData(sparkSession: SparkSession, config: Config): Dataset[UserArtistRecord] = {
+  def readUserArtistData(sparkSession: SparkSession, filename: String, fileLocation:String): Dataset[UserArtistRecord] = {
     import sparkSession.implicits._
 
-    val filename = config.getString("recommender.userartist.filename")
-
     // Read in data
-    val rawDataDs = sparkSession.read.textFile(filename)
+    val rawDataDs = sparkSession.read.textFile(fileLocation + filename)
     //    println("Lines read in: " + rawDataDs.count())
     val userArtistDs = rawDataDs.map(_.split(' ')).map(attr => new UserArtistRecord(attr(0).trim().toLong, attr(1).trim().toLong, attr(2).trim().toLong))
     userArtistDs
   }
 
-  def readArtistData(sparkSession: SparkSession, config: Config): Dataset[ArtistRecord] = {
+  def readArtistData(sparkSession: SparkSession, filename: String, fileLocation:String): Dataset[ArtistRecord] = {
     import sparkSession.implicits._
 
-    val filename = config.getString("recommender.artist.filename")
-
     // Read in data
-    val rawDataDs = sparkSession.read.textFile(filename)
+    val rawDataDs = sparkSession.read.textFile(fileLocation + filename)
     //    println("Lines read in: " + rawDataDs.count())
     val artistDs = rawDataDs.flatMap({ line =>
       val (id, name) = line.span(_ != '\t')
@@ -46,11 +42,10 @@ object DataProcessor {
     artistDs
   }
 
-  def readArtistAliasData(sparkSession: SparkSession, config: Config): PairRDDFunctions[Long, Long] = {
+  def readArtistAliasData(sparkSession: SparkSession, filename: String, fileLocation:String): PairRDDFunctions[Long, Long] = {
     import sparkSession.implicits._
 
-    val filename = config.getString("recommender.artistalias.filename")
-    val rawDataDs = sparkSession.read.textFile(filename)
+    val rawDataDs = sparkSession.read.textFile(fileLocation + filename)
     //println("Lines read in from artist alias file: " + rawDataDs.count())
     val artistAliasPRdd = new PairRDDFunctions(rawDataDs.flatMap({ line =>
       val tokens = line.split('\t')

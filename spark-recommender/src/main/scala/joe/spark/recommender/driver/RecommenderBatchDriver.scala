@@ -26,6 +26,11 @@ object RecommenderBatchDriver {
 
     val appName = conf.getString("recommender.batch.appName")
     val numberOfRecommendations = conf.getInt("recommender.batch.numRecommendations")    
+    val artistFileName = conf.getString("recommender.batch.artist.filename")    
+    val userArtistFileName = conf.getString("recommender.batch.userartist.filename")    
+    val artistAliasFileName = conf.getString("recommender.batch.artistalias.filename")    
+    
+    val fileLocation = args(0).toString
 
     log.info("numberOfRecommendations: " + numberOfRecommendations)
     
@@ -40,36 +45,35 @@ object RecommenderBatchDriver {
     }  
     
     // Load artist data
-    val artistRdd = DataProcessor.readArtistData(sparkSession, conf).rdd
+    val artistRdd = DataProcessor.readArtistData(sparkSession, artistFileName, fileLocation).rdd
+    artistRdd.persist()
 
     // Load artist alias data and get a Map
-    val artistAliasMap = DataProcessor.readArtistAliasData(sparkSession, conf).collectAsMap()
+    val artistAliasMap = DataProcessor.readArtistAliasData(sparkSession, artistAliasFileName, fileLocation).collectAsMap()
 
     // Create a broadcast variable with the alias map
     val artistAliasBc = sparkSession.sparkContext.broadcast(artistAliasMap)
 
     // Load user/artist data  
-    val userArtistRdd = DataProcessor.readUserArtistData(sparkSession, conf).rdd
+    val userArtistRdd = DataProcessor.readUserArtistData(sparkSession, userArtistFileName, fileLocation).rdd
+    userArtistRdd.persist()
 
-    // 1000246
-    // 1000177 (small)
-    // 1000142 (small)
+    log.info("Number of user artist records: " + userArtistRdd.count())
+
+    val userIdRDD = userArtistRdd.map( x => x.userId ).distinct()
+    log.info("Number of unique users: " + userIdRDD.count())
     
-//    val listeningHistoryRdd = RecommendationEngine.getListeningHistory(userId, userArtistRdd, artistRdd)
-
-    log.info("========================================")
-    log.info("Listening History:")
-//    listeningHistoryRdd.collect().foreach(x => log.info(x.name + " (" + x.artistId + ")"))
-
     val model = RecommendationEngine.createModel(userArtistRdd, sparkSession, artistAliasBc)
 
-//    val recommendationsRdd = RecommendationEngine.getRecommendations(userId, numberOfRecommendations, model, userArtistRdd, artistRdd)
+//    val recommendationsRdd = userIdRDD.map{ x => (x, RecommendationEngine.getRecommendations(x, numberOfRecommendations, model, artistRdd)) }
 
     log.info("========================================")
     log.info("Recommendations:")
-//    recommendationsRdd.collect().foreach(x => log.info(x.name + " (" + x.artistId + ")"))
+//    recommendationsRdd.collect().foreach(x => log.info(x._1 + ": " + x._2))
+    
+    //    recommendationsRdd.collect().foreach(x => log.info(x.name + " (" + x.artistId + ")"))
 
-    log.info("========================================")
+//    log.info("========================================")
 
     // Stop the SparkSession  
     sparkSession.stop()
