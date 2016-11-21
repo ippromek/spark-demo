@@ -39,10 +39,10 @@ object RecommenderBatchDriver {
       appName(appName).
       getOrCreate()
 
-    if (log.isInfoEnabled()) {
-      log.info("SparkSession Conf:")
-      sparkSession.conf.getAll.foreach( attr => log.info(attr._1 + ": " + attr._2))
-    }  
+//    if (log.isInfoEnabled()) {
+//      log.info("SparkSession Conf:")
+//      sparkSession.conf.getAll.foreach( attr => log.info(attr._1 + ": " + attr._2))
+//    }  
     
     // Load artist data
     val artistRdd = DataProcessor.readArtistData(sparkSession, artistFileName, fileLocation).rdd
@@ -65,16 +65,9 @@ object RecommenderBatchDriver {
     
     val model = RecommendationEngine.createModel(userArtistRdd, sparkSession, artistAliasBc)
 
-//    val recommendationsRdd = userIdRDD.map{ x => (x, RecommendationEngine.getRecommendations(x, numberOfRecommendations, model, artistRdd)) }
+    // TODO: Iterate over the set of unique users and get recommendations for each user.
 
-    log.info("========================================")
-    log.info("Recommendations:")
-//    recommendationsRdd.collect().foreach(x => log.info(x._1 + ": " + x._2))
     
-    //    recommendationsRdd.collect().foreach(x => log.info(x.name + " (" + x.artistId + ")"))
-
-//    log.info("========================================")
-
     // Stop the SparkSession  
     sparkSession.stop()
 

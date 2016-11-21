@@ -1,13 +1,9 @@
 recommender.appName = "Recommender"
 recommender.numRecommendations = 5
 
-# Windows filesystem examples
-recommender.userartist.filename = "file:///C:/data/spark/datasets/music/user_artist_data_small.txt"
-recommender.artist.filename = "file:///C:/data/spark/datasets/music/artist_data.txt"
-recommender.artistalias.filename = "file:///C:/data/spark/datasets/music/artist_alias.txt"
+recommender.userartist.filename = "user_artist_data.txt"
+recommender.artist.filename = "artist_data.txt"
+recommender.artistalias.filename = "artist_alias.txt"
 
-# AWS S3 filesystem examples
-#recommender.userartist.filename = "s3n://joe.spark.input/music/user_artist_data_small.txt"
-#recommender.artist.filename = "s3n://joe.spark.input/music/artist_data.txt"
-#recommender.artistalias.filename = "s3n://joe.spark.input/music/artist_alias.txt"
-
+recommender.appName = "Recommender"
+recommender.numRecommendations = 5

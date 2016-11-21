@@ -1,13 +1,6 @@
 recommender.batch.appName = "Recommender Batch"
 recommender.batch.numRecommendations = 5
 
-# Windows filesystem examples
-recommender.batch.userartist.filename = "file:///C:/data/spark/datasets/music/user_artist_data_small.txt"
-recommender.batch.artist.filename = "file:///C:/data/spark/datasets/music/artist_data.txt"
-recommender.batch.artistalias.filename = "file:///C:/data/spark/datasets/music/artist_alias.txt"
-
-# AWS S3 filesystem examples
-#recommender.batch.userartist.filename = "s3n://joe.spark.input/music/user_artist_data_small.txt"
-#recommender.batch.artist.filename = "s3n://joe.spark.input/music/artist_data.txt"
-#recommender.batch.artistalias.filename = "s3n://joe.spark.input/music/artist_alias.txt"
-
+recommender.batch.userartist.filename = "user_artist_data.txt"
+recommender.batch.artist.filename = "artist_data.txt"
+recommender.batch.artistalias.filename = "artist_alias.txt"
