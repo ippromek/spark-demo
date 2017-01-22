@@ -16,10 +16,12 @@ import org.apache.spark.sql.Dataset
 import joe.spark.scala.processor.StockProcessor
 import joe.spark.scala.driver._
 import joe.spark.scala._
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
 
 /**
  * 
- * spark-submit --class joe.spark.scala.driver.StockDriver <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar
+ * spark-submit --master local[*] --class joe.spark.scala.driver.StockDriver --conf spark.sql.warehouse.dir=<path-to-warehouse-dir> <path-to-jar>\spark-scala-demo-0.0.1-SNAPSHOT.jar
  * 
  */
 
@@ -31,23 +33,21 @@ object StockDriver {
     val conf = ConfigFactory.load(STOCK_DRIVER_CONF_FILE)
     
     val appName = conf.getString("stockdriver.appName")
-    val sparkMaster = conf.getString("stockdriver.sparkMaster")
-    val sparkWarehouseDir = conf.getString("stockdriver.sparkWarehouseDir")
-    val sparkLocalDir = conf.getString("stockdriver.sparkLocalDir")
     val inputFileName = conf.getString("stockdriver.input.fileName")
-        
-    val sparkSession = SparkSession.builder.
-      master(sparkMaster).
-      appName(appName).
-      config("spark.sql.warehouse.dir", sparkWarehouseDir).
-      getOrCreate()
-
-    val stockRecordDs = StockProcessor.loadStockRecords(sparkSession, inputFileName)
-    stockRecordDs.show(10)
-    println("Number of lines read: " + stockRecordDs.collect().size)
     
-    val uniqueDf = stockRecordDs.groupBy("stockSymbol")
-    uniqueDf.count().show()
+    val sparkSession = SparkSession.builder.
+      appName(appName).
+      getOrCreate()
+      
+    val stockRecordDs = StockProcessor.loadStockRecords(sparkSession, inputFileName)
+    println("Number of lines read: " + stockRecordDs.collect().size)
+
+    stockRecordDs.show(20)
+
+    val uniqueGrouped = stockRecordDs.groupBy("stockSymbol")
+    val uniqueDs = uniqueGrouped.count().persist()   
+    println("Number of stocks: " + uniqueDs.collect().size)
+    uniqueDs.show(20)
     
     sparkSession.stop()
 

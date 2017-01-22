@@ -31,6 +31,9 @@
 		<!-- TypeSafe Config -->
 		<typesafe.config.version>1.3.1</typesafe.config.version>
 
+		<!-- Spark Cassandra Connector -->
+		<spark.cassandra.version>2.0.0-M2</spark.cassandra.version>
+
 		<!-- JUnit -->
 		<junit.version>4.11</junit.version>
 
@@ -73,20 +76,18 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- 
-			 Including both Oracle and MySQL dependencies since the we can use either.
-			 Remove or comment out the one you do not need.
-		 -->
+		<!-- Including both Oracle and MySQL dependencies since the we can use 
+			either. Remove or comment out the one you do not need. -->
 
 		<!-- Oracle -->
- 		<dependency>
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc7</artifactId>
 			<version>${oracle.version}</version>
 		</dependency>
 
- 		<!-- mySQL -->		
- 		<dependency>
+		<!-- mySQL -->
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
@@ -97,6 +98,25 @@
 			<groupId>com.typesafe</groupId>
 			<artifactId>config</artifactId>
 			<version>${typesafe.config.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.datastax.spark</groupId>
+			<artifactId>spark-cassandra-connector_2.10</artifactId>
+			<version>${spark.cassandra.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.0.33.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.3</version>
 		</dependency>
 
 		<!-- JUnit -->
@@ -167,21 +187,15 @@
 				<configuration>
 					<skip>true</skip>
 				</configuration>
-			</plugin>			
-<!--
- 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.8.2</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>			
- -->			<plugin>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-install-plugin</artifactId> 
+				<version>2.8.2</version> <configuration> <skip>true</skip> </configuration> 
+				</plugin> -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.0.1</version>
-			</plugin>			
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -211,10 +225,9 @@
 						</goals>
 					</execution>
 				</executions>
-<!-- 				<configuration>
-					<finalName>uber-${project.artifactId}</finalName>
-				</configuration>
- -->			</plugin>
+				<!-- <configuration> <finalName>uber-${project.artifactId}</finalName> 
+					</configuration> -->
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

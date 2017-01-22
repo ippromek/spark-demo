@@ -1,10 +1,9 @@
 recommender.appName = "Recommender"
-recommender.sparkMaster = "local[*]"
-recommender.sparkWarehouseDir = "file:///C:/tmp/spark-warehouse"
-recommender.sparkLocalDir = "file:///C:/tmp/spark-temp"
+recommender.numRecommendations = 5
 
-recommender.userartist.filename = "file:///C:/data/spark/datasets/music/user_artist_data_small.txt"
-recommender.artist.filename = "file:///C:/data/spark/datasets/music/artist_data.txt"
-recommender.artistalias.filename = "file:///C:/data/spark/datasets/music/artist_alias.txt"
+recommender.userartist.filename = "user_artist_data.txt"
+recommender.artist.filename = "artist_data.txt"
+recommender.artistalias.filename = "artist_alias.txt"
 
+recommender.appName = "Recommender"
 recommender.numRecommendations = 5

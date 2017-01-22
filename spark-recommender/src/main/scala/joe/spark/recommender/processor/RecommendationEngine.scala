@@ -44,7 +44,7 @@ object RecommendationEngine {
   }
   
   
-  def getRecommendations(userId: Long, numRecommendations: Int, model: MatrixFactorizationModel, userArtistRdd: RDD[UserArtistRecord], artistRdd: RDD[ArtistRecord]): RDD[ArtistRecord] = {
+  def getRecommendations(userId: Long, numRecommendations: Int, model: MatrixFactorizationModel, artistRdd: RDD[ArtistRecord]): RDD[ArtistRecord] = {
   
     log.info("In getRecommendations")
     val recommendations = model.recommendProducts(userId.toInt, numRecommendations)
