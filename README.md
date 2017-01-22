@@ -1,5 +1,5 @@
 # spark-demo
-
+[Travis CI](https://travis-ci.org) Build Status: [![Build Status](https://travis-ci.org/jsicree/spark-demo.svg)](https://travis-ci.org/jsicree/spark-demo)
 ## Sample command lines
 ### spark-scala-demo
 
@@ -41,7 +41,7 @@ c:\Users\jsicree\dev>spark-submit --class joe.spark.recommender.driver.Recommend
 16/10/25 23:09:07 INFO RecommenderDriver$: Survivor (1002614)
 16/10/25 23:09:07 INFO RecommenderDriver$: The Beatles (1000113)
 16/10/25 23:09:07 INFO RecommenderDriver$: Coldplay (1177)
-16/10/25 23:09:07 INFO RecommenderDriver$: R÷yksopp (1001864)
+16/10/25 23:09:07 INFO RecommenderDriver$: RÃ·yksopp (1001864)
 16/10/25 23:09:07 INFO RecommendationEngine$: In createModel
 16/10/25 23:09:14 INFO RecommendationEngine$: Leaving createModel
 16/10/25 23:09:14 INFO RecommendationEngine$: In getRecommendations
@@ -52,6 +52,6 @@ c:\Users\jsicree\dev>spark-submit --class joe.spark.recommender.driver.Recommend
 16/10/25 23:09:16 INFO RecommenderDriver$: Massive Attack (59)
 16/10/25 23:09:16 INFO RecommenderDriver$: Radiohead (979)
 16/10/25 23:09:16 INFO RecommenderDriver$: DJ Shadow (118)
-16/10/25 23:09:16 INFO RecommenderDriver$: R÷yksopp (1001864)
+16/10/25 23:09:16 INFO RecommenderDriver$: RÃ·yksopp (1001864)
 16/10/25 23:09:16 INFO RecommenderDriver$: ========================================
 ```
